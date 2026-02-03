@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function Navbar({ user }) {
   //AI Note: useLocation is used here to preserve the current path when redirecting to login — this is beyond beginner-level routing.

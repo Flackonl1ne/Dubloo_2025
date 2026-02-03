@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import './index.css';
 
 // This part of code using AI to help me find the lattitude and longtitude of each lcoations"
@@ -14,70 +14,70 @@ const markerData = [
     building: "Mary Gates Hall",
     location: "Basement Restroom",
     rating: "⭐⭐⭐⭐⭐ (4.7/5)",
-    image: "img/marygates.jpeg",
+    image: "/img/marygates.jpeg",
     coordinates: { lat: 47.6538, lng: -122.3078 }
   },
   {
     building: "Odegaard Library",
     location: "1st Floor",
     rating: "⭐⭐⭐⭐☆ (4.6/5)",
-    image: "img/ode.jpeg",
+    image: "/img/ode.jpeg",
     coordinates: { lat: 47.6562, lng: -122.3094 }
   },
   {
     building: "Suzzallo Library",
     location: "Basement",
     rating: "⭐⭐⭐⭐☆ (4.5/5)",
-    image: "img/suzzalo.jpeg",
+    image: "/img/suzzalo.jpeg",
     coordinates: { lat: 47.6539, lng: -122.3076 }
   },
   {
     building: "Kane Hall",
     location: "3rd Floor",
     rating: "⭐⭐⭐⭐☆ (4.5/5)",
-    image: "img/kane hall.jpeg",
+    image: "/img/kanehall.jpeg",
     coordinates: { lat: 47.6565, lng: -122.3095 }
   },
   {
     building: "Savery Hall",
     location: "Ground Floor",
     rating: "⭐⭐⭐☆ (4.2/5)",
-    image: "img/sav.jpeg",
+    image: "/img/sav.jpeg",
     coordinates: { lat: 47.6560, lng: -122.3090 }
   },
   {
   building: "Paul G. Allen Center for Computer Science & Engineering",
   location: "2nd Floor",
   rating: "⭐⭐⭐⭐⭐ (4.8/5)",
-  image: "img/allen.jpeg",
+  image: "/img/allen.jpeg",
   coordinates: { lat: 47.6533, lng: -122.3059 }
 },
 {
   building: "Denny Hall",
   location: "Basement",
   rating: "⭐⭐⭐☆ (3.8/5)",
-  image: "img/denny.jpeg",
+  image: "/img/denny.jpeg",
   coordinates: { lat: 47.6581, lng: -122.3103 }
 },
 {
   building: "Bagley Hall",
   location: "1st Floor Restroom",
   rating: "⭐⭐⭐☆ (4.2/5)",
-  image: "img/bagley.jpeg",
+  image: "/img/bagley.jpeg",
   coordinates: { lat: 47.6548, lng: -122.3087 }
 },
 {
   building: "Paccar Hall",
   location: "Main Floor Restroom",
   rating: "⭐⭐⭐⭐☆ (4.6/5)",
-  image: "img/paccar.jpeg",
+  image: "/img/paccar.jpeg",
   coordinates: { lat: 47.6592, lng: -122.3080 }
 },
 {
   building: "HUB",
   location: "Ground Floor Restroom",
   rating: "⭐⭐⭐⭐ (4.0/5)",
-  image: "img/hub.jpeg",
+  image: "/img/hub.jpeg",
   coordinates: { lat: 47.6556, lng: -122.3049 }
 }
 ];

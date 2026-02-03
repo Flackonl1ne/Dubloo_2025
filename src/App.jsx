@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Homepage } from './Homepage';
@@ -17,7 +17,7 @@ function App() {
   const [user, setUser] = useState(null); // I aksed AI for tutorial for how to use 'usestate'
 
   return (
-    <Router>
+    <BrowserRouter>
       <Navbar user={user} />
       <ToastContainer position="top-center" autoClose={3000} />
       <Routes>
@@ -31,10 +31,10 @@ function App() {
         <Route path="/dashboard/:restroomId" element={<Dashboard user={user} />} />
         <Route path="/dashboard" element={<Dashboard user={user} />} />
         <Route path="/signup" element={<Signup setUser={setUser} />} />
-        <Route path="" element={<NotFound />} /> 
+        <Route path="*" element={<NotFound />} /> 
       </Routes>
       <Footer />
-    </Router>
+    </BrowserRouter>
   );
 }
 

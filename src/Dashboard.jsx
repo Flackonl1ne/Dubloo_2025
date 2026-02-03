@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams, Link } from 'react-router';
+import { useParams, Link } from 'react-router-dom';
 import RestroomPost from './RestroomPost';
 import './index.css';
-import { getDatabase, ref, onValue, push } from "firebase/database";
 import { toast } from 'react-toastify';
+import { loadPosts, savePost, formatRelativeTime, getDemoUser } from './demoStore';
 import { like } from './Like';
 // Static definition of image paths for each bathroom
 const restroomImages = {
@@ -30,37 +30,18 @@ export default function Dashboard({ user }) {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    if (restroomId) {
-      setRestroom(decodeURIComponent(restroomId));
-    }
-  }, [restroomId]);
+  // Demo mode: load posts from localStorage and filter by restroom
+  const all = loadPosts();
 
-// Get comment data from Firebase and filter by restroom
-// These lines from the AI
-  useEffect(() => {
-    const db = getDatabase();
-    const postsRef = ref(db, 'posts');
+  const postsArray = all
+    .map(p => ({
+      ...p,
+      timestamp: formatRelativeTime(p.rawTimestamp || p.timestamp)
+    }, user))
+    .filter(post => post.restroom === restroom);
 
-    const unsubscribe = onValue(postsRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        const postsArray = Object.keys(data).map(key => ({
-          id: key,
-          ...data[key],
-          timestamp: formatTimestamp(data[key].timestamp)
-        }))
-          .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
-          .filter(post => post.restroom === restroom);
-
-        setPosts(postsArray);
-      } else {
-        setPosts([]);
-      }
-    });
-
-    return () => unsubscribe();
-  }, [restroom]);
-
+  setPosts(postsArray);
+}, [restroom]);
 // Format timestamps to display as “just now” or “a few minutes ago,” etc.
   const formatTimestamp = (timestamp) => {
     if (!timestamp) return "Just now";
@@ -103,13 +84,12 @@ export default function Dashboard({ user }) {
 
     // There used to be bugs here, but AI helped me debug the method it created.
     try {
-      const db = getDatabase();
-      const postsRef = ref(db, 'posts');
-      await push(postsRef, newPostData);
-
-      const localPost = {
+      const u = getDemoUser() || user;
+      savePost({ ...newPostData, id: `p_${Date.now()}`, rawTimestamp: newPostData.timestamp }, user);
+const localPost = {
         ...newPostData,
         id: Date.now(),
+        rawTimestamp: newPostData.timestamp,
         timestamp: "Just now"
       };
 
@@ -236,7 +216,7 @@ export default function Dashboard({ user }) {
               name: restroom,
               image: restroomImages[buildingName] || "/img/default.jpeg",
               location: buildingName
-            })
+            }, user)
           }
         >
           ❤️ Like

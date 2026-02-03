@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router';
-import { getDatabase, ref, onValue } from 'firebase/database';
+import { useNavigate, useParams } from 'react-router-dom';
 import './index.css';
+import { loadLikes, loadReviews, formatRelativeTime, logoutDemoUser } from './demoStore';
 
 // I used ChatGPT here to help me design a mock UI for logging restroom usage notes.
 function Profile({ user, setUser }) {
@@ -9,7 +9,7 @@ function Profile({ user, setUser }) {
   const { userId } = useParams();
 
   const [isCurrentUser, setIsCurrentUser] = useState(true);
-  const [profilePic, setProfilePic] = useState('img/default-profile.png');
+  const [profilePic, setProfilePic] = useState('/img/default-profile.png');
   const [displayName, setDisplayName] = useState('');
   const [favorites, setFavorites] = useState([]);
   const [usageLog, setUsageLog] = useState([]);
@@ -28,29 +28,16 @@ function Profile({ user, setUser }) {
   }, [userId, user]);
 
   useEffect(() => {
-    if (!user?.email) return;
-    const db = getDatabase();
-    const reviewsRef = ref(db, 'reviews');
-    onValue(reviewsRef, snapshot => {
-      const data = snapshot.val();
-      if (!data) return;
-      const allReviews = Object.values(data);
-      const filtered = allReviews.filter(r => r.userId === user.email);
-      setMyReviews(filtered);
-    });
+    if (!user) return;
+    const all = loadReviews();
+    const mine = all.filter(r => (r.userId === (user.email || user.uid)) || (r.username === user.username));
+    setMyReviews(mine);
   }, [user]);
-
-  useEffect(() => {
-    if (!user?.uid) return;
-    const db = getDatabase();
-    const favRef = ref(db, `favorites/${user.uid}`);
-    onValue(favRef, snapshot => {
-      const data = snapshot.val();
-      setFavorites(data ? Object.values(data) : []);
-    });
+useEffect(() => {
+    if (!user) return;
+    setFavorites(loadLikes());
   }, [user]);
-
-  function handlePicChange(e) {
+function handlePicChange(e) {
     const file = e.target.files[0];
     if (!file) return;
     // I asked ChatGPT how to preview a selected profile picture before uploading.
@@ -78,6 +65,7 @@ function Profile({ user, setUser }) {
   }
 
   function handleLogout() {
+    logoutDemoUser();
     setUser(null);
     navigate('/');
   }

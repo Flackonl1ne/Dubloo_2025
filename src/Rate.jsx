@@ -1,9 +1,7 @@
 // Updated Rate.jsx with Firebase review submission
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router';
+import { useParams, useNavigate } from 'react-router-dom';
 import './index.css';
-import { getDatabase, ref, push } from 'firebase/database';
-
 function Rate({ user }) {
   const { restroomId } = useParams();
   const navigate = useNavigate();
@@ -91,40 +89,42 @@ function Rate({ user }) {
 
   // Use AI debug, it gives me a more detailed method
   const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!validateRatings()) return;
-    setIsSubmitting(true);
-    setErrorMsg('');
+  e.preventDefault();
+  if (!validateRatings()) return;
+  setIsSubmitting(true);
+  setErrorMsg('');
 
-    const db = getDatabase();
-    const reviewsRef = ref(db, 'reviews');
-    const reviewData = {
-      userId: user.email,
-      username: user.username || user.email,
-      restroom: restroomName,
-      cleanliness: Number(cleanlinessScore),
-      odor: Number(odorScore),
-      facility: Number(facilityScore),
-      overall: Number(overallScore),
-      comment,
-      amenities: { hasPaper, hasSoap, isAccessible, isGenderNeutral },
-      timestamp: new Date().toISOString()
-    };
+  const u = getDemoUser(user);
 
-    push(reviewsRef, reviewData).then(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-      setTimeout(() => {
-        navigate(`/dashboard/${encodeURIComponent(restroomName)}`);
-      }, 2000);
-    }).catch((error) => {
-      console.error(error);
-      setErrorMsg('Failed to submit review.');
-      setIsSubmitting(false);
-    });
+  const reviewData = {
+    id: `r_${Date.now()}`,
+    userId: u?.email || "guest@demo.local",
+    username: u?.username || u?.email || "Guest",
+    restroom: restroomName,
+    cleanliness: Number(cleanlinessScore),
+    odor: Number(odorScore),
+    facility: Number(facilityScore),
+    overall: Number(overallScore),
+    comment,
+    amenities: { hasPaper, hasSoap, isAccessible, isGenderNeutral },
+    timestamp: new Date().toISOString()
   };
 
-  if (submitted) {
+  try {
+    saveReview(reviewData);
+    setIsSubmitting(false);
+    setSubmitted(true);
+    setTimeout(() => {
+      navigate(`/dashboard/${encodeURIComponent(restroomName)}`);
+    }, 800);
+  } catch (error) {
+    console.error(error);
+    setIsSubmitting(false);
+    setErrorMsg('Failed to submit in demo mode.');
+  }
+};
+
+if (submitted) {
     return (
       <div className="rate-success">
         <div className="success-icon">✅</div>

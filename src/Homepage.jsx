@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import MapComponent from './Map';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import './index.css';
 
 export function Homepage() {

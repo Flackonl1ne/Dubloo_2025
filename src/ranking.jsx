@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 import "./index.css";
 
 const restroomData = [
   {
-    image: "img/marygates.jpeg",
+    image: "/img/marygates.jpeg",
     title: "Mary Gates Hall - Basement Restroom",
     building: "Mary Gates Hall",
     submitter: "uw_explorer",
@@ -17,7 +17,7 @@ const restroomData = [
     genderNeutral: true,
   },
   {
-    image: "img/ode.jpeg",
+    image: "/img/ode.jpeg",
     title: "Odegaard Library - 1st Floor",
     building: "Odegaard Library",
     submitter: "uw_student",
@@ -29,7 +29,7 @@ const restroomData = [
     genderNeutral: true,
   },
   {
-    image: "img/suzzalo.jpeg",
+    image: "/img/suzzalo.jpeg",
     title: "Suzallo Library - Basement",
     building: "Suzallo Library",
     submitter: "uw_hiddenrestroom",
@@ -41,7 +41,7 @@ const restroomData = [
     genderNeutral: true,
   },
   {
-    image: "img/kanehall.jpeg",
+    image: "/img/kanehall.jpeg",
     title: "Kane Hall - 3rd Floor",
     building: "Kane Hall",
     submitter: "uw_panther",
@@ -53,7 +53,7 @@ const restroomData = [
     genderNeutral: false,
   },
   {
-    image: "img/sav.jpeg",
+    image: "/img/sav.jpeg",
     title: "Savery Hall - Ground Floor",
     building: "Savery Hall",
     submitter: "uw_psych101",
@@ -65,7 +65,7 @@ const restroomData = [
     genderNeutral: false,
   },
   {
-    image: "img/allen.jpeg",
+    image: "/img/allen.jpeg",
     title: "Paul G. Allen Center for Computer Science & Engineering - 2nd Floor",
     building: "Paul G. Allen Center for Computer Science & Engineering",
     submitter: "uw_reader",
@@ -77,7 +77,7 @@ const restroomData = [
     genderNeutral: true,
   },
   {
-    image: "img/denny.jpeg",
+    image: "/img/denny.jpeg",
     title: "Denny Hall - Basement",
     building: "Denny Hall",
     submitter: "uw_historybuff",
@@ -89,7 +89,7 @@ const restroomData = [
     genderNeutral: false,
   },
   {
-    image: "img/bagley.jpeg",
+    image: "/img/bagley.jpeg",
     title: "Bagley Hall - 1st Floor Restroom",
     building: "Bagley Hall",
     submitter: "uw_chem101",
@@ -101,7 +101,7 @@ const restroomData = [
     genderNeutral: true,
   },
   {
-    image: "img/paccar.jpeg",
+    image: "/img/paccar.jpeg",
     title: "Paccar Hall - Main Floor Restroom",
     building: "Paccar Hall",
     submitter: "uw_bizstudent",
@@ -113,7 +113,7 @@ const restroomData = [
     genderNeutral: true,
   },
   {
-    image: "img/hub.jpeg",
+    image: "/img/hub.jpeg",
     title: "HUB - Ground Floor Restroom",
     building: "HUB",
     submitter: "uw_unionvisitor",
